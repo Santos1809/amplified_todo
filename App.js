@@ -1,3 +1,4 @@
+// APP TUTORIAL 1 ORIGINAL
 import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
@@ -6,6 +7,8 @@ import {
   TextInput,
   Pressable,
   SafeAreaView,
+  Image,
+  ScrollView
 } from 'react-native';
 import {API, graphqlOperation} from 'aws-amplify';
 import {createTodo} from './src/graphql/mutations';
@@ -17,6 +20,7 @@ import {
 
 import { Amplify } from 'aws-amplify';
 import awsExports from './src/aws-exports';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 Amplify.configure(awsExports);
 
 // retrieves only the current value of 'user' from 'useAuthenticator'
@@ -25,11 +29,17 @@ const userSelector = (context) => [context.user]
 const SignOutButton = () => {
   const { user, signOut } = useAuthenticator(userSelector);
   return (
+    <View style={styles.mainContainer}>
+    <Image source={require("./assets/img/backgroundHeader.png")} />
     <Pressable onPress={signOut} style={styles.buttonContainer}>
       <Text style={styles.buttonText}>
-        Hello, {user.username}! Click here to sign out!
+        Hola, {user.username}! Click Aqui Si Deseas Salir Del Foro De Consultas! 
+      </Text>
+      <Text style={styles.buttonText}>
+        Hola, {user.username}! Aqui Registraras Tu Nombre Y La Molestia Que Tienes! 
       </Text>
     </Pressable>
+    </View>
   );
 };
 
@@ -71,22 +81,23 @@ const App = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <View style={styles.container}>
         <SignOutButton />
         <TextInput
           onChangeText={value => setInput('name', value)}
           style={styles.input}
           value={formState.name}
-          placeholder="Name"
+          placeholder="Nombre Paciente"
         />
         <TextInput
           onChangeText={value => setInput('description', value)}
           style={styles.input}
           value={formState.description}
-          placeholder="Description"
+          placeholder="Describe tus sintomas"
         />
         <Pressable onPress={addTodo} style={styles.buttonContainer}>
-          <Text style={styles.buttonText}>Create todo</Text>
+          <Text style={styles.buttonText}>Registrar Caso</Text>
         </Pressable>
         {todos.map((todo, index) => (
           <View key={todo.id ? todo.id : index} style={styles.todo}>
@@ -95,6 +106,9 @@ const App = () => {
           </View>
         ))}
       </View>
+        
+      </ScrollView>
+     
     </SafeAreaView>
   );
 };
@@ -104,12 +118,13 @@ export default withAuthenticator(App);
 const styles = StyleSheet.create({
   container: {width: 400, flex: 1, padding: 20, alignSelf: 'center'},
   todo: {marginBottom: 15},
-  input: {backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18},
+  input: {backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18, margin: 10},
   todoName: {fontSize: 20, fontWeight: 'bold'},
   buttonContainer: {
     alignSelf: 'center',
-    backgroundColor: 'black',
+    backgroundColor: '#68B6FF',
     paddingHorizontal: 8,
+    marginTop: 5
   },
-  buttonText: {color: 'white', padding: 16, fontSize: 18},
+  buttonText: {color: 'white', padding: 10, fontSize: 15, },
 });
